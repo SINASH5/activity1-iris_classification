@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+import joblib
 
 def load_data(file_path):
     """
@@ -20,6 +21,15 @@ def train_model(X, y):
     model = RandomForestClassifier(random_state=42)
     model.fit(X, y)
     return model
+
+def save_model(model, file_path):
+    """
+    Save the trained model to a file.
+    :param model: trained model
+    :param file_path: str, path where the model will be saved
+    """
+    joblib.dump(model, file_path)
+    print(f"Model saved to {file_path}")
 
 def main():
     data_file_path = "./data/raw/Iris.csv"  # Adjust this path if needed
@@ -47,6 +57,9 @@ def main():
     predictions = model.predict(X)
     accuracy = accuracy_score(y, predictions)
     print(f"Model trained with accuracy: {accuracy:.2f}")
+
+    # Save the trained model
+    save_model(model, "../models/iris_model.pkl")
 
 if __name__ == "__main__":
     main()
