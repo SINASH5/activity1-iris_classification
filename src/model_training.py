@@ -1,38 +1,52 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 def load_data(file_path):
+    """
+    Load the dataset from the CSV file.
+    :param file_path: str, path to the dataset
+    :return: pandas DataFrame
+    """
     return pd.read_csv(file_path)
 
-def preprocess_data(df):
-    # Drop rows with NaN values in 'Species' column
-    df.dropna(subset=['Species'], inplace=True)
-    
-    X = df.drop(columns=["Species"])
-    y = df["Species"].map({"setosa": 0, "versicolor": 1, "virginica": 2})
-
-    return X, y
-
 def train_model(X, y):
+    """
+    Train a Random Forest model.
+    :param X: features
+    :param y: labels
+    :return: trained model
+    """
     model = RandomForestClassifier(random_state=42)
     model.fit(X, y)
     return model
 
-if __name__ == "__main__":
-    data_file_path = "./data/raw/Iris.csv"
+def main():
+    data_file_path = "./data/raw/Iris.csv"  # Adjust this path if needed
     df = load_data(data_file_path)
 
-    # Check unique values in 'species' column
-    print("Unique values in 'Species' column before mapping:\n", df['Species'].unique())
+    # Check for NaN values in features and labels
+    if df.isnull().sum().sum() > 0:
+        print("Data contains NaN values. Dropping NaNs...")
+        df.dropna(inplace=True)  # Remove rows with NaN values
 
-    X, y = preprocess_data(df)
+    # Separate features and labels
+    X = df.drop(columns=["Species"])  # Changed to "Species"
+    y = df["Species"]  # Changed to "Species"
 
-    # Check for NaN values after preprocessing
-    print("NaN values in y after preprocessing:\n", y.isnull().sum())
+    # Check for NaN values in y
+    if y.isnull().sum() > 0:
+        print("Target variable contains NaN values. Removing NaN entries...")
+        df.dropna(subset=["Species"], inplace=True)  # Changed to "Species"
+        y = df["Species"]  # Update y after dropping NaNs
 
-    if y.isnull().any():
-        raise ValueError("Cannot train the model because y contains NaN values.")
-
+    # Train the model
     model = train_model(X, y)
-    print("Model trained successfully.")
+
+    # Predictions and accuracy check
+    predictions = model.predict(X)
+    accuracy = accuracy_score(y, predictions)
+    print(f"Model trained with accuracy: {accuracy:.2f}")
+
+if __name__ == "__main__":
+    main()
