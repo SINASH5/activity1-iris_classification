@@ -27,6 +27,7 @@ def preprocess_data(df):
     # Separate features and labels
     X = df.drop(columns=["Species"])
     y = df["Species"].map({"setosa": 0, "versicolor": 1, "virginica": 2})
+    y = df["Species"].map({"setosa": 0, "versicolor": 1, "virginica": 2})
 
     return X, y
 
