@@ -19,12 +19,14 @@ def preprocess_data(df):
     :param df: pandas DataFrame
     :return: X (features), y (labels)
     """
+
+    #drop rows with NaN values in "Species"
+    df.dropna(subset=['Species'], inplace=True) 
+
+    
     # Separate features and labels
     X = df.drop(columns=["Species"])
-    y = df["Species"]
-
-    # Convert categorical labels to numeric
-    y = y.map({"setosa": 0, "versicolor": 1, "virginica": 2})
+    y = df["Species"].map({"setosa": 0, "versicolor": 1, "virginica": 2})
 
     return X, y
 
