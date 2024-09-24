@@ -3,6 +3,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import joblib
 import os
+import joblib
+import os
 
 def load_data(file_path):
     """
@@ -35,6 +37,18 @@ def save_model(model, file_path):
     joblib.dump(model, file_path)
     print(f"Model saved to {file_path}")
 
+def save_model(model, file_path):
+    """
+    Save the trained model to a file.
+    :param model: trained model
+    :param file_path: str, path to save the model
+    """
+    # Ensure the directory exists before saving
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    
+    joblib.dump(model, file_path)
+    print(f"Model saved to {file_path}")
+
 def main():
     data_file_path = "./data/raw/Iris.csv"  # Adjust this path if needed
     df = load_data(data_file_path)
@@ -42,6 +56,7 @@ def main():
     # Check for NaN values in features and labels
     if df.isnull().sum().sum() > 0:
         print("Data contains NaN values. Dropping NaNs...")
+        df.dropna(inplace=True)
         df.dropna(inplace=True)
 
     # Separate features and labels
@@ -51,6 +66,8 @@ def main():
     # Check for NaN values in y
     if y.isnull().sum() > 0:
         print("Target variable contains NaN values. Removing NaN entries...")
+        df.dropna(subset=["Species"], inplace=True)
+        y = df["Species"]
         df.dropna(subset=["Species"], inplace=True)
         y = df["Species"]
 
