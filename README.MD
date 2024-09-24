@@ -15,7 +15,16 @@ This project classifies iris flowers into three species based on sepal and petal
 - seaborn
 
 ## How to Run
-1. Clone the repository.
-2. Install the requirements:
-   ```bash
-   pip install -r requirements.txt
+1. Install dependencies:
+    
+    pip install -r requirements.txt
+    
+2. Preprocess data, train the model, and evaluate:
+    
+    python src/model_training.py
+    python src/model_evaluation.py
+    
+3. Make predictions:
+    
+    python src/prediction.py
+
