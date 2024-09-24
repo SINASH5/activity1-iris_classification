@@ -2,6 +2,9 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import joblib
+import os
+import joblib
+import os
 
 def load_data(file_path):
     """
@@ -26,8 +29,23 @@ def save_model(model, file_path):
     """
     Save the trained model to a file.
     :param model: trained model
-    :param file_path: str, path where the model will be saved
+    :param file_path: str, path to save the model
     """
+    # Ensure the directory exists before saving
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    
+    joblib.dump(model, file_path)
+    print(f"Model saved to {file_path}")
+
+def save_model(model, file_path):
+    """
+    Save the trained model to a file.
+    :param model: trained model
+    :param file_path: str, path to save the model
+    """
+    # Ensure the directory exists before saving
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    
     joblib.dump(model, file_path)
     print(f"Model saved to {file_path}")
 
@@ -38,7 +56,8 @@ def main():
     # Check for NaN values in features and labels
     if df.isnull().sum().sum() > 0:
         print("Data contains NaN values. Dropping NaNs...")
-        df.dropna(inplace=True)  # Remove rows with NaN values
+        df.dropna(inplace=True)
+        df.dropna(inplace=True)
 
     # Separate features and labels
     X = df.drop(columns=["Species"])  # Changed to "Species"
@@ -47,8 +66,10 @@ def main():
     # Check for NaN values in y
     if y.isnull().sum() > 0:
         print("Target variable contains NaN values. Removing NaN entries...")
-        df.dropna(subset=["Species"], inplace=True)  # Changed to "Species"
-        y = df["Species"]  # Update y after dropping NaNs
+        df.dropna(subset=["Species"], inplace=True)
+        y = df["Species"]
+        df.dropna(subset=["Species"], inplace=True)
+        y = df["Species"]
 
     # Train the model
     model = train_model(X, y)
@@ -61,5 +82,9 @@ def main():
     # Save the trained model
     save_model(model, "./models/iris_model.pkl")
 
+    # Save the trained model
+    save_model(model, "../models/iris_model.pkl")
+
 if __name__ == "__main__":
     main()
+
