@@ -59,7 +59,7 @@ def main():
     print(f"Model trained with accuracy: {accuracy:.2f}")
 
     # Save the trained model
-    save_model(model, "../models/iris_model.pkl")
+    save_model(model, "./models/iris_model.pkl")
 
 if __name__ == "__main__":
     main()
