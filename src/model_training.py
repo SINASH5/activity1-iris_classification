@@ -60,7 +60,7 @@ def main():
         df.dropna(inplace=True)
 
     # Separate features and labels
-    X = df.drop(columns=["Species"])  # Changed to "Species"
+    X = df.drop(columns=["Species","Id"])  # Changed to "Species"
     y = df["Species"]  # Changed to "Species"
 
     # Check for NaN values in y
@@ -81,9 +81,6 @@ def main():
 
     # Save the trained model
     save_model(model, "./models/iris_model.pkl")
-
-    # Save the trained model
-    save_model(model, "../models/iris_model.pkl")
 
 if __name__ == "__main__":
     main()
